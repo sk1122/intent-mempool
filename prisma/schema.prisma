@@ -26,6 +26,7 @@ model Mempool {
   id        String      @id @default(uuid())
   intent    String
   typeId    String
+  approved  Boolean
   type      IntentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
   createdAt DateTime    @default(now())
 }

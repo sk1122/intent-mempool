@@ -11,7 +11,7 @@ export class Database {
         this.db = prisma
     }
 
-    async registerIntentType(intent: IntentType, mempoolId: string) {
+    async registerIntentType(intent: IntentType) {
         const intentType = await this.db.intentType.create({
             data: {
                 name: intent.name,
@@ -34,7 +34,21 @@ export class Database {
                     connect: {
                         id: mempoolIntent.id
                     }
-                }
+                },
+                approved: false
+            }
+        })
+
+        return intent
+    }
+
+    async approveIntent(id: string) {
+        const intent = await this.db.mempool.update({
+            where: {
+                id
+            },
+            data: {
+                approved: true
             }
         })
 

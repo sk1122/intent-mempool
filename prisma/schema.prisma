@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model IntentType {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  conditions  String
+  batch       String
+  fee         Int
+  signedOrder String
+  mempool     Mempool[]
+  createdAt   DateTime @default(now())
+}
+
+model Mempool {
+  id        String      @id @default(uuid())
+  intent    String
+  typeId    String
+  type      IntentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+}

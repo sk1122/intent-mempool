@@ -1,6 +1,8 @@
 import express, { Express, Request, Response } from "express"
 import { prisma } from "./prisma"
 import { Mempool } from "@prisma/client"
+import { solve } from "./solver"
+import { publishIntent } from "./mempool"
 
 export class API {
     private server: Express
@@ -42,6 +44,8 @@ export class API {
             const intent = await prisma.mempool.create({
                 data: body
             })
+
+            await publishIntent(body)
 
             res.status(200).send({
                 status: 200,

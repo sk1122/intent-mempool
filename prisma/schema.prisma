@@ -29,6 +29,7 @@ model Mempool {
   signedOrder String
   approved    Boolean
   solved      Boolean
+  response    String
   typeId      String
   type        IntentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
   createdAt   DateTime   @default(now())

@@ -7,26 +7,29 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model IntentType {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  conditions  String
+  mempool     Mempool[]
+  createdAt   DateTime  @default(now())
+}
+
+model Mempool {
+  id          String     @id @default(uuid())
   name        String
   description String
   conditions  String
   batch       String
   fee         Int
   signedOrder String
-  mempool     Mempool[]
-  createdAt   DateTime @default(now())
-}
-
-model Mempool {
-  id        String      @id @default(uuid())
-  intent    String
-  typeId    String
-  approved  Boolean
-  type      IntentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  createdAt DateTime    @default(now())
+  approved    Boolean
+  solved      Boolean
+  typeId      String
+  type        IntentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
 }

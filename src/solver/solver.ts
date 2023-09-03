@@ -1,27 +1,7 @@
 import { Mempool } from "@prisma/client";
 import axios from "axios"
-import { BuildTransactionConfig, TransactionType, buildErc20ApproveTransaction } from "../types";
+import { BuildTransactionConfig, Conditions, TransactionType, buildErc20ApproveTransaction } from "../types";
 import { getEvmRPC } from "../config";
-
-interface Conditions {
-    conditions: {
-        fromAddress: string
-        toAddress: string
-
-        amountIn: string
-        tokenIn: string
-        chainIn: number
-
-        amountOut: string
-        tokenOut: string
-        chainOut: number
-
-        slippage: number
-    }
-    preConditions: {
-        outPrice?: string
-    }
-}
 
 export const lifiAdapter = async (tx: BuildTransactionConfig): Promise<any[]> => {
     const rpc = getEvmRPC(tx.fromChain);
@@ -74,7 +54,7 @@ export const lifiAdapter = async (tx: BuildTransactionConfig): Promise<any[]> =>
     return txs
 };
 
-export const solve = async (intent: Mempool) => {
+export const solveCrossChain = async (intent: Mempool) => {
     const conditions = JSON.parse(intent.conditions) as Conditions
 
     const txs = await lifiAdapter({

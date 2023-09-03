@@ -13,6 +13,26 @@ export interface WebsocketClientData {
     ws: WebSocket
 }
 
+export interface Conditions {
+    conditions: {
+        fromAddress: string
+        toAddress: string
+
+        amountIn: string
+        tokenIn: string
+        chainIn: number
+
+        amountOut: string
+        tokenOut: string
+        chainOut: number
+
+        slippage: number
+    }
+    preConditions: {
+        outPrice?: string
+    }
+}
+
 export const ERC20_ABI = [
     {
         constant: true,

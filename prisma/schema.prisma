@@ -11,7 +11,7 @@ datasource db {
 }
 
 model IntentType {
-  id          String    @id @default(uuid())
+  id          String @id
   name        String
   description String
   conditions  String
